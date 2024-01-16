@@ -13,13 +13,13 @@ spring:
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
 
-mybatis:
-  #mapper配置文件
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.sky.entity
-  configuration:
-    #开启驼峰命名
-    map-underscore-to-camel-case: true
+#mybatis:
+#  #mapper配置文件
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.sky.entity
+#  configuration:
+#    #开启驼峰命名
+#    map-underscore-to-camel-case: true
 
 logging:
   level:
@@ -28,6 +28,21 @@ logging:
         mapper: debug
         service: info
         controller: info
+
+
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: is_delete
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      #mapper配置文件
+      mapper-locations: classpath:mapper/*.xml
+      type-aliases-package: com.sky.entity
+      configuration:
+        #开启驼峰命名
+        map-underscore-to-camel-case: true
 
 sky:
   jwt:

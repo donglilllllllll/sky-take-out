@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.UpdatableSqlQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -109,6 +111,22 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
                     .orderByDesc(Employee::getUpdateTime);
         IPage page1 = employeeMapper.selectPage(page, queryWrapper);
         return new PageResult(page1.getTotal(), page1.getRecords());
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        LambdaUpdateWrapper<Employee> updateWrapper = new LambdaUpdateWrapper<>();
+        //启用
+        if(status == 0){
+        updateWrapper.set(Employee::getStatus,0)
+                .eq(Employee::getId,id);
+        }else if(status == 1){
+            updateWrapper.set(Employee::getStatus,1)
+                    .eq(Employee::getId,id);
+
+
+        }
+        employeeMapper.update(null,updateWrapper);
     }
 
 
