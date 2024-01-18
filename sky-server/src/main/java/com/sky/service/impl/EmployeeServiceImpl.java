@@ -107,8 +107,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
         IPage<Employee> page = new Page(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(employeePageQueryDTO.getName() != null,Employee::getName,employeePageQueryDTO.getName())
-                    .orderByDesc(Employee::getUpdateTime);
+        queryWrapper.like(employeePageQueryDTO.getName() != null, Employee::getName, employeePageQueryDTO.getName())
+                .orderByDesc(Employee::getUpdateTime);
         IPage page1 = employeeMapper.selectPage(page, queryWrapper);
         return new PageResult(page1.getTotal(), page1.getRecords());
     }
@@ -116,17 +116,36 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     @Override
     public void startOrStop(Integer status, Long id) {
         LambdaUpdateWrapper<Employee> updateWrapper = new LambdaUpdateWrapper<>();
-        //启用
-        if(status == 0){
-        updateWrapper.set(Employee::getStatus,0)
-                .eq(Employee::getId,id);
-        }else if(status == 1){
-            updateWrapper.set(Employee::getStatus,1)
-                    .eq(Employee::getId,id);
+        //启用/禁用
 
+        updateWrapper.set(Employee::getStatus, status)
+
+                .eq(Employee::getId, id);
+
+        employeeMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public void updateById1(EmployeeDTO employeeDTO) {
+
+        Employee employee = employeeMapper.selectById(employeeDTO.getId());
+        log.info("开始修改...");
+        if (employee != null) {
+           /* LambdaUpdateWrapper<Employee> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper.set(employeeDTO.getIdNumber() != null, Employee::getIdNumber, employeeDTO.getIdNumber())
+                    .set(employeeDTO.getName() != null, Employee::getName, employeeDTO.getName())
+                    .set(employeeDTO.getPhone() != null, Employee::getPhone, employeeDTO.getPhone())
+                    .set(employeeDTO.getSex() != null, Employee::getSex, employeeDTO.getSex())
+                    .set(employeeDTO.getUsername() != null, Employee::getUsername, employeeDTO.getUsername())
+                    .eq(Employee::getId, employeeDTO.getId());*/
+            Employee employee1 = new Employee();
+            BeanUtils.copyProperties(employeeDTO, employee1);
+            employee1.setUpdateUser(BaseContext.getCurrentId());
+            employee1.setUpdateTime(LocalDateTime.now());
+            employeeMapper.updateById(employee1);
+            log.info("修改成功...");
 
         }
-        employeeMapper.update(null,updateWrapper);
     }
 
 

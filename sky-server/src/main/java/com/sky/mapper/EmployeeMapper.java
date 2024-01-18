@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.mybatis.spring.annotation.MapperScan;
 
 @Mapper
 public interface EmployeeMapper extends BaseMapper<Employee>{
@@ -17,14 +18,8 @@ public interface EmployeeMapper extends BaseMapper<Employee>{
      * @param username
      * @return
      */
-    @Select("select * from employee where username = #{username}")
+   /* @Select("select * from employee where username = #{username}")
     Employee getByUsername(String username);
+*/
 
-   /* *//**
-     * 分页查询
-     * @param employeePageQueryDTO
-     * @return
-     *//*
-
-    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);*/
 }
