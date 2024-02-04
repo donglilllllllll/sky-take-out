@@ -117,7 +117,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     public void startOrStop(Integer status, Long id) {
         LambdaUpdateWrapper<Employee> updateWrapper = new LambdaUpdateWrapper<>();
         //启用/禁用
-
         updateWrapper.set(Employee::getStatus, status)
 
                 .eq(Employee::getId, id);
@@ -131,13 +130,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         Employee employee = employeeMapper.selectById(employeeDTO.getId());
         log.info("开始修改...");
         if (employee != null) {
-           /* LambdaUpdateWrapper<Employee> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-            lambdaUpdateWrapper.set(employeeDTO.getIdNumber() != null, Employee::getIdNumber, employeeDTO.getIdNumber())
-                    .set(employeeDTO.getName() != null, Employee::getName, employeeDTO.getName())
-                    .set(employeeDTO.getPhone() != null, Employee::getPhone, employeeDTO.getPhone())
-                    .set(employeeDTO.getSex() != null, Employee::getSex, employeeDTO.getSex())
-                    .set(employeeDTO.getUsername() != null, Employee::getUsername, employeeDTO.getUsername())
-                    .eq(Employee::getId, employeeDTO.getId());*/
             Employee employee1 = new Employee();
             BeanUtils.copyProperties(employeeDTO, employee1);
             employee1.setUpdateUser(BaseContext.getCurrentId());
@@ -146,6 +138,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
             log.info("修改成功...");
 
         }
+
     }
 
 
