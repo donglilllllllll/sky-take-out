@@ -49,13 +49,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             category1.setUpdateTime(LocalDateTime.now());
             categoryMapper.updateById(category1);
             log.info("修改成功");
-
         }else{
             log.info("没有查询到这个分类");
-
         }
-
-
     }
 
     /**

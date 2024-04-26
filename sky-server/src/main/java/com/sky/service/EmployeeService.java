@@ -20,7 +20,7 @@ public interface EmployeeService extends IService<Employee> {
     Employee login(EmployeeLoginDTO employeeLoginDTO);
 
     /**
-     * 熙增员工
+     * 新增员工
      * @param employeeDTO
      */
     void save(EmployeeDTO employeeDTO);
