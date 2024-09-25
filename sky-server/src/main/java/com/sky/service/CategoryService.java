@@ -6,6 +6,8 @@ import com.sky.entity.Category;
 import com.sky.entity.Employee;
 import com.sky.result.PageResult;
 
+import java.util.List;
+
 public interface CategoryService extends IService<Category> {
     /**
      * 修改分类
@@ -13,9 +15,11 @@ public interface CategoryService extends IService<Category> {
      */
     void updateCateDtoById(CategoryDTO categoryDTO);
 
-   PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
+    PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
 
     void startOrStop(Integer status, Long id);
 
     void insert(CategoryDTO categoryDTO);
+
+    List<Category> list(Integer type);
 }

@@ -31,6 +31,7 @@ import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -69,7 +70,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
 
-        if (employee.getStatus() == StatusConstant.DISABLE) {
+        if (Objects.equals(employee.getStatus(), StatusConstant.DISABLE)) {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
@@ -81,7 +82,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     /**
      * 新增员工
      *
-     * @param employeeDTO
      */
     @Override
     public void save(EmployeeDTO employeeDTO) {
@@ -109,8 +109,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(employeePageQueryDTO.getName() != null, Employee::getName, employeePageQueryDTO.getName())
                 .orderByDesc(Employee::getUpdateTime);
-        IPage page1 = employeeMapper.selectPage(page, queryWrapper);
-        return new PageResult(page1.getTotal(), page1.getRecords());
+        employeeMapper.selectPage(page, queryWrapper);
+        return new PageResult(page.getTotal(), page.getRecords());
     }
 
     @Override
@@ -118,9 +118,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         LambdaUpdateWrapper<Employee> updateWrapper = new LambdaUpdateWrapper<>();
         //启用/禁用
         updateWrapper.set(Employee::getStatus, status)
-
                 .eq(Employee::getId, id);
-
         employeeMapper.update(null, updateWrapper);
     }
 

@@ -1,5 +1,8 @@
 package com.sky.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +40,7 @@ public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     //订单号
@@ -100,11 +104,34 @@ public class Orders implements Serializable {
     private LocalDateTime deliveryTime;
 
     //打包费
-    private int packAmount;
+    private Integer packAmount;
 
     //餐具数量
-    private int tablewareNumber;
+    private Integer tablewareNumber;
 
     //餐具数量状态  1按餐量提供  0选择具体数量
     private Integer tablewareStatus;
+    //日期，以逗号分隔，例如：2022-10-01,2022-10-02,2022-10-03
+    @TableField(exist = false)
+    private String dateList;
+
+    //每日订单数，以逗号分隔，例如：260,210,215
+    @TableField(exist = false)
+    private Integer orderCounts;
+
+    //每日有效订单数，以逗号分隔，例如：20,21,10
+    @TableField(exist = false)
+    private Integer validOrderCounts;
+
+    //订单总数
+    @TableField(exist = false)
+    private Integer totalOrderCount;
+
+    //有效订单总数
+    @TableField(exist = false)
+    private Integer validOrderCount;
+
+    //订单完成率
+    @TableField(exist = false)
+    private Double orderCompletionRate;
 }

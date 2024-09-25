@@ -51,8 +51,6 @@
             <version>3.4.2</version>
         </dependency>
 
-
-
         <!-- <dependency>
              <groupId>org.mybatis.spring.boot</groupId>
              <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -76,6 +74,16 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.jsqlparser</groupId>
+                    <artifactId>jsqlparser</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -112,7 +120,11 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
+     <!--   <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+        </dependency>-->
         <!-- poi -->
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -122,7 +134,18 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+
+        <!-- https://mvnrepository.com/artifact/pentaho-kettle/kettle-engine -->
+        <!-- https://mvnrepository.com/artifact/pentaho-kettle/kettle-core -->
+<!--        <dependency>-->
+<!--            <groupId>pentaho-kettle</groupId>-->
+<!--            <artifactId>kettle-core</artifactId>-->
+<!--            <version>9.4.0.0-333</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
     </dependencies>
+
 
     <build>
         <plugins>

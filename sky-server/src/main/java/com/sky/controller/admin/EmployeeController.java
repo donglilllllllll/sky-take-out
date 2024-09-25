@@ -45,6 +45,7 @@ public class EmployeeController {
         log.info("员工登录：{}", employeeLoginDTO);
 
         Employee employee = employeeService.login(employeeLoginDTO);
+        log.info("员工登录id=======：{}",employee.getId());
 
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();

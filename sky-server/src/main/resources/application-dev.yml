@@ -6,3 +6,27 @@ sky:
     database: sky_take_out
     username: root
     password: 123456
+  alioss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+#    access-key-id: LTAI5t5eEx69j5GdzAfxE2SG
+#    access-key-secret: LXUW037JL1Pz92Z4q3o9cEHUyfrGJB
+    access-key-id: 00000000000000000000000000000000
+    access-key-secret: 0000000000000000000000000000000
+    bucket-name: web-zkx
+
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password: tXFqyKae5bg6DwE0k1nDTA==
+
+  wechat:
+    appid: wxf0d7ead7ecff35e2
+    secret: 919ac210ad431ad398d582e42ff1a2dc
+    mchid: 1561414331
+    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+    privateKeyFilePath: C:\software\apiclient_key.pem
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+    weChatPayCertFilePath: C:\software\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+    notifyUrl: https://9ea0754.r19.cpolar.top/notify/paySuccess
+    refundNotifyUrl: https://9ea0754.r19.cpolar.top/notify/refundSuccess

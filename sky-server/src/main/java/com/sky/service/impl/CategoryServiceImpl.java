@@ -27,72 +27,79 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Autowired
-     private CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper;
 
     /**
      * 修改分类
+     *
      * @param categoryDTO
      */
     @Override
     public void updateCateDtoById(CategoryDTO categoryDTO) {
         Category category = categoryMapper.selectById(categoryDTO.getId());
         log.info("开始修改");
-        if(category != null){
+        if (category != null) {
             Category category1 = new Category();
             BeanUtils.copyProperties(categoryDTO, category1);
             category1.setUpdateUser(BaseContext.getCurrentId());
             category1.setUpdateTime(LocalDateTime.now());
             categoryMapper.updateById(category1);
             log.info("修改成功");
-        }else{
+        } else {
             log.info("没有查询到这个分类");
         }
     }
 
     /**
      * 分页查询
+     *
      * @param categoryPageQueryDTO
      * @return
      */
     @Override
-    public PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO) {
+    public PageResult<Category> pageQuery(CategoryPageQueryDTO categoryPageQueryDTO) {
 
-        IPage<Category> page = new Page(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
+        IPage<Category> page = new Page<>(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(categoryPageQueryDTO.getName() != null, Category::getName, categoryPageQueryDTO.getName())
                 .like(categoryPageQueryDTO.getType() != null, Category::getType, categoryPageQueryDTO.getType())
                 .orderByDesc(Category::getUpdateTime);
 
-        IPage page1 = categoryMapper.selectPage(page, queryWrapper);
-
-        return new PageResult(page1.getTotal(), page1.getRecords());
+        categoryMapper.selectPage(page, queryWrapper);
+        return new PageResult<Category>(page.getTotal(), page.getRecords());
 
     }
 
     /**
      * 启用或禁用
+     *
      * @param status
      * @param id
      */
     @Override
     public void startOrStop(Integer status, Long id) {
-        LambdaUpdateWrapper<Category> updateWrapper = new LambdaUpdateWrapper<>();
-        //启用/禁用
-        updateWrapper.set(Category::getStatus, status)
-                .eq(Category::getId, id);
-
-        categoryMapper.update(null, updateWrapper);
+//        LambdaUpdateWrapper<Category> updateWrapper = new LambdaUpdateWrapper<>();
+//        //启用/禁用
+//        updateWrapper.set(Category::getStatus, status)
+//                .eq(Category::getId, id);
+        Category category = new Category();
+        category.setStatus(status);
+        category.setId(id);
+        categoryMapper.updateById(category);
+//        categoryMapper.update(category, new LambdaUpdateWrapper<Category>()
+//                .eq(Category::getId, id));
 
     }
 
     @Override
     public void insert(CategoryDTO categoryDTO) {
-        Category category  = new Category();
+        Category category = new Category();
         //对象属性拷贝
         BeanUtils.copyProperties(categoryDTO, category);
         //设置账号状态为正常，默认正常为1，关闭为0
@@ -105,6 +112,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         category.setCreateUser(BaseContext.getCurrentId());
         category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.insert(category);
+    }
+
+
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Category> list(Integer type) {
+        return categoryMapper.list(type);
     }
 
 

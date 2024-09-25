@@ -40,14 +40,11 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //获取当前线程ID
         System.out.println("当前线程ID" + Thread.currentThread().getId());
-
-
         //判断当前拦截到的是Controller的方法还是其他资源
         if (!(handler instanceof HandlerMethod)) {
             //当前拦截到的不是动态方法，直接放行
             return true;
         }
-
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
 
@@ -56,11 +53,9 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前员工id：", empId);
+            log.info("当前员工id：{}", empId);
             //把empid 存到线程空间
-
             BaseContext.setCurrentId(empId);
-
             //3、通过，放行
             return true;
         } catch (Exception ex) {
@@ -70,10 +65,4 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
     }
 
-    @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
-        return interceptor;
-    }
 }

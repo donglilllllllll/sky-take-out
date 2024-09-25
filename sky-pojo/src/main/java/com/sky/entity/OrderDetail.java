@@ -1,5 +1,8 @@
 package com.sky.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +22,7 @@ public class OrderDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     //名称
@@ -44,4 +48,8 @@ public class OrderDetail implements Serializable {
 
     //图片
     private String image;
+
+    //菜品总数量
+    @TableField(exist = false)
+    private Integer totalNumber;
 }
